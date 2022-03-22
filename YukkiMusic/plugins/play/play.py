@@ -41,6 +41,8 @@ from YukkiMusic.utils.stream.stream import stream
 UPDATES_CHANNEL = os.getenv("UPDATES_CHANNEL")
 
 
+loop = asyncio.get_event_loop()
+
 # Command
 PLAY_COMMAND = get_command("PLAY_COMMAND")
 
