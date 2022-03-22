@@ -16,11 +16,6 @@ from pyrogram import filters
 
 load_dotenv()
 
-# Fsub play
-MUST_JOIN = getenv("MUST_JOIN", None)
-if MUST_JOIN.startswith("@"):
-    MUST_JOIN = MUST_JOIN.replace("@", "")
-
 # Get it from my.telegram.org
 API_ID = int(getenv("API_ID", ""))
 API_HASH = getenv("API_HASH")
