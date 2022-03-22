@@ -72,8 +72,10 @@ async def play_commnd(
     slider = None
     plist_type = None
     spotify = None
+    chat_id = message.chat.id
     user_id = message.from_user.id
     user_name = message.from_user.first_name
+    rpk = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
     update_channel = UPDATES_CHANNEL
     if update_channel:
         try:
