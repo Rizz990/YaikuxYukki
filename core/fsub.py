@@ -1,8 +1,8 @@
 from pyrogram.errors import ChatAdminRequired, ChatWriteForbidden, UserNotParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from Music import app
-from Music.config import MUST_JOIN
+from YukkiMusic import app
+from config.config import MUST_JOIN
 
 
 def subcribe(func):
