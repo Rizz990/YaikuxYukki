@@ -12,10 +12,9 @@ import string
 from ast import ExceptHandler
 
 from pyrogram import filters
-from pyrogram.types import (InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto,
+from pyrogram.types import (InlineKeyboardMarkup, InputMediaPhoto,
                             Message)
 from pytgcalls.exceptions import NoActiveGroupCall
-from pyrogram.errors import UserNotParticipant
 
 import config
 from config import BANNED_USERS, lyrical
@@ -36,12 +35,6 @@ from YukkiMusic.utils.inline.playlist import botplaylist_markup
 from YukkiMusic.utils.logger import play_logs
 from YukkiMusic.utils.stream.stream import stream
 
-
-
-UPDATES_CHANNEL = os.getenv("UPDATES_CHANNEL")
-
-
-loop = asyncio.get_event_loop()
 
 # Command
 PLAY_COMMAND = get_command("PLAY_COMMAND")
@@ -75,46 +68,6 @@ async def play_commnd(
     chat_id = message.chat.id
     user_id = message.from_user.id
     user_name = message.from_user.first_name
-    rpk = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
-    update_channel = UPDATES_CHANNEL
-    if update_channel:
-        try:
-            user = await app.get_chat_member(update_channel, user_id)
-            if user.status == "banned":
-                await app.send_message(
-                    chat_id,
-                    text=f"**❌ {rpk} anda telah di blokir dari grup dukungan\n\n🔻 Klik tombol dibawah untuk menghubungi admin grup**",
-                    reply_markup=InlineKeyboardMarkup(
-                        [
-                            [
-                                InlineKeyboardButton(
-                                    "✨ ʀɪᴢᴢ ✨",
-                                    url="https://t.me/Rizzpex",
-                                )
-                            ]
-                        ]
-                    ),
-                    parse_mode="markdown",
-                    disable_web_page_preview=True,
-                )
-                return
-        except UserNotParticipant:
-            await app.send_message(
-                chat_id,
-                text=f"**👋🏻 Halo {rpk}\nᴜɴᴛᴜᴋ ᴍᴇɴɢʜɪɴᴅᴀʀɪ ᴘᴇɴɢɢᴜɴᴀᴀɴ ʏᴀɴɢ ʙᴇʀʟᴇʙɪʜᴀɴ ʙᴏᴛ ɪɴɪ ᴅɪ ᴋʜᴜsᴜsᴋᴀɴ ᴜɴᴛᴜᴋ ʏᴀɴɢ sᴜᴅᴀʜ ᴊᴏɪɴ ᴅɪ ᴄʜᴀɴɴᴇʟ ᴋᴀᴍɪ!​!**",
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "💬 Join CH Support 💬",
-                                url=f"https://t.me/{update_channel}",
-                            )
-                        ]
-                    ]
-                ),
-                parse_mode="markdown",
-            )
-            return
     audio_telegram = (
         (
             message.reply_to_message.audio
