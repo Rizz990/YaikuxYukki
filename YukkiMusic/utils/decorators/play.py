@@ -21,9 +21,52 @@ from YukkiMusic.utils.database import (get_cmode, get_lang,
 from YukkiMusic.utils.database.memorydatabase import is_maintenance
 from YukkiMusic.utils.inline.playlist import botplaylist_markup
 
+import os
+
+UPDATES_CHANNEL = os.getenv("UPDATES_CHANNEL")
+from pyrogram.errors import UserNotParticipant
 
 def PlayWrapper(command):
     async def wrapper(client, message):
+        update_channel = UPDATES_CHANNEL
+        if update_channel:
+            try:
+                user = await app.get_chat_member(update_channel, user_id)
+                if user.status == "banned":
+                    await app.send_message(
+                        chat_id,
+                        text=f"**❌ {rpk} anda telah di blokir dari grup dukungan\n\n🔻 Klik tombol dibawah untuk menghubungi admin grup**",
+                        reply_markup=InlineKeyboardMarkup(
+                            [
+                                [
+                                    InlineKeyboardButton(
+                                        "✨ Rizz ✨",
+                                        url="https://t.me/rumahakhirat",
+                                    )
+                                ]
+                            ]
+                        ),
+                        parse_mode="markdown",
+                        disable_web_page_preview=True,
+                    )
+                    return
+            except UserNotParticipant:
+                await app.send_message(
+                    chat_id,
+                    text=f"**👋🏻 Halo {rpk}\nᴜɴᴛᴜᴋ ᴍᴇɴɢʜɪɴᴅᴀʀɪ ᴘᴇɴɢɢᴜɴᴀᴀɴ ʏᴀɴɢ ʙᴇʀʟᴇʙɪʜᴀɴ ʙᴏᴛ ɪɴɪ ᴅɪ ᴋʜᴜsᴜsᴋᴀɴ ᴜɴᴛᴜᴋ ʏᴀɴɢ sᴜᴅᴀʜ ᴊᴏɪɴ ᴅɪ ᴄʜᴀɴɴᴇʟ ᴋᴀᴍɪ!​!**",
+                    reply_markup=InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    "💬 ᴊᴏɪɴ ᴄʜ sᴜᴘᴘᴏʀᴛ 💬",
+                                    url=f"https://t.me/{update_channel}",
+                                )
+                            ]
+                        ]
+                    ),
+                    parse_mode="markdown",
+                )
+                return
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
