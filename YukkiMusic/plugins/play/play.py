@@ -35,6 +35,14 @@ from YukkiMusic.utils.inline.playlist import botplaylist_markup
 from YukkiMusic.utils.logger import play_logs
 from YukkiMusic.utils.stream.stream import stream
 
+import os
+
+from pyrogram.types import InlineKeyboardButton
+
+UPDATES_CHANNEL = os.getenv("UPDATES_CHANNEL")
+from pyrogram.errors import UserNotParticipant
+
+loop = asyncio.get_event_loop()
 
 # Command
 PLAY_COMMAND = get_command("PLAY_COMMAND")
@@ -68,6 +76,46 @@ async def play_commnd(
     chat_id = message.chat.id
     user_id = message.from_user.id
     user_name = message.from_user.first_name
+    rpk = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
+    update_channel = UPDATES_CHANNEL
+    if update_channel:
+        try:
+            user = await app.get_chat_member(update_channel, user_id)
+            if user.status == "banned":
+                await app.send_message(
+                    chat_id,
+                    text=f"**❌ {rpk} anda telah di blokir dari grup dukungan\n\n🔻 Klik tombol dibawah untuk menghubungi admin grup**",
+                    reply_markup=InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    "✨ Rizz ✨",
+                                    url="https://t.me/Rizzpex",
+                                )
+                            ]
+                        ]
+                    ),
+                    parse_mode="markdown",
+                    disable_web_page_preview=True,
+                )
+                return
+        except UserNotParticipant:
+            await app.send_message(
+                chat_id,
+                text=f"**👋🏻 Halo {rpk}\nᴜɴᴛᴜᴋ ᴍᴇɴɢʜɪɴᴅᴀʀɪ ᴘᴇɴɢɢᴜɴᴀᴀɴ ʏᴀɴɢ ʙᴇʀʟᴇʙɪʜᴀɴ ʙᴏᴛ ɪɴɪ ᴅɪ ᴋʜᴜsᴜsᴋᴀɴ ᴜɴᴛᴜᴋ ʏᴀɴɢ sᴜᴅᴀʜ ᴊᴏɪɴ ᴅɪ ᴄʜᴀɴɴᴇʟ ᴋᴀᴍɪ!​!**",
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "💬 JOIN CHANNEL 💬",
+                                url=f"https://t.me/{update_channel}",
+                            )
+                        ]
+                    ]
+                ),
+                parse_mode="markdown",
+            )
+            return
     audio_telegram = (
         (
             message.reply_to_message.audio
