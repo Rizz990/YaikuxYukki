@@ -35,14 +35,14 @@ from YukkiMusic.utils.inline import (help_pannel, private_panel,
 loop = asyncio.get_running_loop()
 
 
-@app.on_message(
-    filters.command(get_command("START_COMMAND"))
-    & filters.private
-    & ~filters.edited
-    & ~BANNED_USERS
-)
-@LanguageStart
-async def start_comm(client, message: Message, _):
+#@app.on_message(
+#    filters.command(get_command("START_COMMAND"))
+#    & filters.private
+#    & ~filters.edited
+#    & ~BANNED_USERS
+#)
+@app.on_message(filters.command("start") & filters.private)
+async def start_command(_, message):
     await add_served_user(message.from_user.id)
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
