@@ -11,11 +11,11 @@
 # Commands in Every Language
 
 # Bot Commands
-PING_COMMAND : ["ping"]
+PING_COMMAND : ["mping"]
 START_COMMAND : ["mstart"]
 HELP_COMMAND : ["mhelp"]
-SETTINGS_COMMAND : ["settings", "setting"]
-RELOAD_COMMAND : ["admincache", "reload"]
+SETTINGS_COMMAND : ["msettings", "msetting"]
+RELOAD_COMMAND : ["admincache", "mreload"]
 GSTATS_COMMAND : ["gstats"]
 STATS_COMMAND : ["stats"]
 LANGUAGE_COMMAND : ["lang", "language", "langs"]
@@ -80,7 +80,7 @@ GETLOG_COMMAND : ["get_log"]
 GETVAR_COMMAND : ["get_var"]
 DELVAR_COMMAND : ["del_var"]
 SETVAR_COMMAND : ["set_var"]
-USAGE_COMMAND : ["usage"]
+USAGE_COMMAND : ["musage"]
 VARS_COMMAND : ["vars", "config"]
 
 
